@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "schipaoadventure",
+	"version": "${version}",
+	"name": "schipaoAdventure",
+	"description": "Fun exploration mod made by Paolmaker17",
+	"authors": [
+		"SchiPao"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/Paolmaker17/schipaoAdventure"
+	},
+	"license": "MIT",
+	"icon": "assets/schipaoadventure/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "sh.ftp.schipao.schipaoadventure.SchipaoAdventure",
+				"adapter": "kotlin"
+			}
+		],
+		"fabric-datagen": [
+			{
+				"value": "sh.ftp.schipao.schipaoadventure.SchipaoAdventureDataGenerator",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			"sh.ftp.schipao.schipaoadventure.schipaoAdventureClient"
+		]
+	},
+	"mixins": [
+		"schipaoadventure.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.2",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}
