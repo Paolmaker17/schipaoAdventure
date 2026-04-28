@@ -8,6 +8,7 @@ import net.minecraft.registry.Registry
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import sh.ftp.schipao.schipaoadventure.SchipaoAdventure
+import sh.ftp.schipao.schipaoadventure.block.ModBlocks
 
 object ModItemGroups {
     val SCHIPAOADVENTURE_ITEMS :ItemGroup = Registry.register(Registries.ITEM_GROUP,
@@ -18,6 +19,7 @@ object ModItemGroups {
             .entries { _, entries ->
                 entries.add(ModItems.RAW_MITHRIL)
                 entries.add(ModItems.MITHRIL_INGOT)
+                entries.add(ModBlocks.MITHRIL_ORE)
             }
             .build()
     )

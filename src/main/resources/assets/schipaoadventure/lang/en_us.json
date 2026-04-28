@@ -2,5 +2,7 @@
   "item.schipaoadventure.raw_mithril": "Raw Mithril",
   "item.schipaoadventure.mithril_ingot": "Mithril Ingot",
 
+  "block.schipaoadventure.mithril_ore": "Mithril Ore",
+
   "itemgroup.schipaoadventure_items": "SchiPao Adventure Items"
 }

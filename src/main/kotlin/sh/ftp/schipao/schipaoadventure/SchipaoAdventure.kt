@@ -3,6 +3,7 @@ package sh.ftp.schipao.schipaoadventure
 import net.fabricmc.api.ModInitializer
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sh.ftp.schipao.schipaoadventure.block.ModBlocks
 import sh.ftp.schipao.schipaoadventure.item.ModItemGroups
 import sh.ftp.schipao.schipaoadventure.item.ModItems
 
@@ -14,5 +15,6 @@ object SchipaoAdventure : ModInitializer {
 		ModItemGroups.registerItemGroups()
 
 		ModItems.registerModItems()
+		ModBlocks.registerModBlocks()
 	}
 }
