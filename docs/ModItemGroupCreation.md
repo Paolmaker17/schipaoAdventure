@@ -26,5 +26,5 @@
 ```
 
 > [!IMPORTANT]
-> `"schipaoadventure_items"` must be replaced with id you registered the item with
+> `"schipaoadventure_items"` must be replaced with id you registered the item group with
 
