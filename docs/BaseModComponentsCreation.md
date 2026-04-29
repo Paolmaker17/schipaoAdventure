@@ -1,6 +1,6 @@
 
 > [!IMPORTANT]
-> `"schipaoadventure_items"` and `"raw.mithril"`  must be replaced with id you registered the item group and item/block with
+> `"schipaoadventure_items"` and `"raw.mithril"`  must be replaced with the id you registered the item group and item/block
 
 
 # How to create a new item
