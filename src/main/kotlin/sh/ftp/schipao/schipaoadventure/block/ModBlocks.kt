@@ -3,6 +3,7 @@ package sh.ftp.schipao.schipaoadventure.block
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.block.CraftingTableBlock
 import net.minecraft.block.ExperienceDroppingBlock
 import net.minecraft.block.MapColor
 import net.minecraft.item.BlockItem
@@ -25,6 +26,26 @@ object ModBlocks {
                 .strength(4f, 4f)
                 .requiresTool()
         ))
+
+    val DEEPSLATE_MITHRIL_ORE :Block = registerBlock("deepslate_mithril_ore",
+        ExperienceDroppingBlock(
+            UniformIntProvider.create(3, 7),
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.DEEPSLATE_GRAY)
+                .sounds(BlockSoundGroup.DEEPSLATE)
+                .strength(4.5f, 4f)
+                .requiresTool()
+        ))
+
+    val MITHRIL_BLOCK :Block = registerBlock("mithril_block",
+        CraftingTableBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.DARK_RED)
+                .sounds(BlockSoundGroup.METAL)
+                .strength(5.0F, 6.0F)
+                .requiresTool()
+        )
+    )
 
     private fun registerBlock(name :String, block : Block) :Block{
         registerBlockItem(name, block)

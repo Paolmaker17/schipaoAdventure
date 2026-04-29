@@ -19,7 +19,10 @@ object ModItemGroups {
             .entries { _, entries ->
                 entries.add(ModItems.RAW_MITHRIL)
                 entries.add(ModItems.MITHRIL_INGOT)
+
+                entries.add(ModBlocks.DEEPSLATE_MITHRIL_ORE)
                 entries.add(ModBlocks.MITHRIL_ORE)
+                entries.add(ModBlocks.MITHRIL_BLOCK)
             }
             .build()
     )

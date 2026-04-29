@@ -3,6 +3,8 @@
   "item.schipaoadventure.mithril_ingot": "Mithril Ingot",
 
   "block.schipaoadventure.mithril_ore": "Mithril Ore",
+  "block.schipaoadventure.deepslate_mithril_ore": "Deepslate Mithril Ore",
+  "block.schipaoadventure.mithril_block": "Mithril Block",
 
   "itemgroup.schipaoadventure_items": "SchiPao Adventure Items"
 }
