@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.2,
+  "group": "mithril",
+  "ingredient": {
+    "item": "schipaoadventure:deepslate_mithril_ore"
+  },
+  "result": {
+    "id": "schipaoadventure:mithril_ingot"
+  }
+}

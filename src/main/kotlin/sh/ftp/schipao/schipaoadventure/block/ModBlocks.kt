@@ -23,7 +23,7 @@ object ModBlocks {
             AbstractBlock.Settings.create()
                 .mapColor(MapColor.STONE_GRAY)
                 .sounds(BlockSoundGroup.STONE)
-                .strength(4f, 4f)
+                .strength(3f, 4f)
                 .requiresTool()
         ))
 
@@ -33,13 +33,21 @@ object ModBlocks {
             AbstractBlock.Settings.create()
                 .mapColor(MapColor.DEEPSLATE_GRAY)
                 .sounds(BlockSoundGroup.DEEPSLATE)
-                .strength(4.5f, 4f)
+                .strength(3.5f, 4f)
                 .requiresTool()
         ))
 
     val MITHRIL_BLOCK :Block = registerBlock("mithril_block",
-        CraftingTableBlock(
-            AbstractBlock.Settings.create()
+        Block(AbstractBlock.Settings.create()
+                .mapColor(MapColor.DARK_RED)
+                .sounds(BlockSoundGroup.METAL)
+                .strength(5.0F, 6.0F)
+                .requiresTool()
+        )
+    )
+
+    val RAW_MITHRIL_BLOCK :Block = registerBlock("raw_mithril_block",
+        Block(AbstractBlock.Settings.create()
                 .mapColor(MapColor.DARK_RED)
                 .sounds(BlockSoundGroup.METAL)
                 .strength(5.0F, 6.0F)
