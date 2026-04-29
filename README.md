@@ -1,7 +1,7 @@
 # schipaoAdventure
 ![Main Title](src/main/resources/assets/schipaoadventure/icon.png)
 
-**A fabric 1.21 mod that adds various fun and and interesting features to make your journey more interesting**
+**A fabric 1.21 mod that adds various fun and interesting features to make your journey more interesting**
 
 ## Features
 
