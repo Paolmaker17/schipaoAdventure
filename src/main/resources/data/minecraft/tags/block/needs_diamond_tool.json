@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "schipaoadventure:deepslate_mithril_ore"
+    "schipaoadventure:deepslate_mithril_ore",
+    "schipaoadventure:mithril_block"
   ]
 }

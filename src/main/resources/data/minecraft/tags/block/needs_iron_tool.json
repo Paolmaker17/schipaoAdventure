@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "schipaoadventure:mithril_ore",
-    "schipaoadventure:raw_mithril_block",
-    "schipaoadventure:mithril_block"
+    "schipaoadventure:raw_mithril_block"
   ]
 }

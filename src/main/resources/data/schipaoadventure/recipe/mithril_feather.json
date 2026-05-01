@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "m": {
+      "item": "schipaoadventure:mithril_ingot"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " mm",
+    "mmm",
+    "gm "
+  ],
+  "result": {
+    "count": 1,
+    "id": "schipaoadventure:mithril_feather"
+  }
+}
