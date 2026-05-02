@@ -19,7 +19,7 @@ class FeatherItem(settings: Settings) : Item(settings){
         selected: Boolean) {
 
         if (entity is PlayerEntity && !world.isClient) {
-            // Only apply when falling (optional but recommended)
+
             if (!entity.isOnGround && !entity.hasStatusEffect(StatusEffects.SLOW_FALLING)) {
                 entity.addStatusEffect(
                     StatusEffectInstance(
