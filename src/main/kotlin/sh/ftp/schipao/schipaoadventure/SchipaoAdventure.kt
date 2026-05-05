@@ -1,6 +1,9 @@
 package sh.ftp.schipao.schipaoadventure
 
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
+import net.minecraft.client.MinecraftClient
+import net.minecraft.text.Text
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sh.ftp.schipao.schipaoadventure.block.ModBlocks
@@ -16,5 +19,13 @@ object SchipaoAdventure : ModInitializer {
 
 		ModItems.registerModItems()
 		ModBlocks.registerModBlocks()
+
+		ClientPlayConnectionEvents.JOIN.register { handler, sender, client ->
+			client.execute {
+				MinecraftClient.getInstance().setScreen(
+					CustomClassChoiceScreen(Text.literal("Choose your class"))
+				)
+			}
+		}
 	}
 }
