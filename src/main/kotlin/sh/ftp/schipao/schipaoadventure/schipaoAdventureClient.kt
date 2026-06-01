@@ -2,9 +2,18 @@ package sh.ftp.schipao.schipaoadventure
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.text.Text
 
-class schipaoAdventureClient : ClientModInitializer {
+class schipaoAdventureClient :ClientModInitializer {
+    companion object {
+        fun handlePlayerDataPayload(payload: PlayerDataPayload, ctx: ClientPlayNetworking.Context) {
+            val player = ctx.client().player!!
+            player.sendMessage(Text.literal("got ${payload.data}"))
+            (player as PlayerData).deserialize(payload.data)
+        }
+    }
+
     private var opened = false
 
     override fun onInitializeClient() {
@@ -26,5 +35,7 @@ class schipaoAdventureClient : ClientModInitializer {
                 opened = true
             }
         }
+
+        ClientPlayNetworking.registerGlobalReceiver(PlayerDataPayload.ID, schipaoAdventureClient::handlePlayerDataPayload)
     }
 }
