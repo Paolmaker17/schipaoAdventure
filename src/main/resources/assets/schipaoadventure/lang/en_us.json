@@ -4,6 +4,9 @@
   "item.schipaoadventure.mithril_feather": "Mithril Feather",
   "item.schipaoadventure.star_of_origins": "Star of Origins",
 
+  "item.schipaoadventure.pasta_music_disc" : "Pasta Music Disc",
+  "item.schipaoadventure.pasta_music_disc.desc" : "Ciccio Merrino - Pasta (CC0)",
+
   "block.schipaoadventure.mithril_ore": "Mithril Ore",
   "block.schipaoadventure.deepslate_mithril_ore": "Deepslate Mithril Ore",
   "block.schipaoadventure.mithril_block": "Mithril Block",

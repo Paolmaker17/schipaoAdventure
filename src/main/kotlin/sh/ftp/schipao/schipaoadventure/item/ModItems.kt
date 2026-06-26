@@ -8,6 +8,7 @@ import net.minecraft.util.Rarity
 import sh.ftp.schipao.schipaoadventure.SchipaoAdventure
 import sh.ftp.schipao.schipaoadventure.item.custom.FeatherItem
 import sh.ftp.schipao.schipaoadventure.item.custom.OriginStarItem
+import sh.ftp.schipao.schipaoadventure.sound.ModSounds
 
 object ModItems {
     val RAW_MITHRIL :Item = registerItem("raw_mithril", Item(Item.Settings()))
@@ -15,6 +16,9 @@ object ModItems {
 
     val MITHRIL_FEATHER :Item = registerItem("mithril_feather", FeatherItem(Item.Settings().maxCount(1)))
     val STAR_OF_ORIGINS :Item = registerItem("star_of_origins", OriginStarItem(Item.Settings().maxCount(1).rarity(Rarity.RARE)))
+
+    val PASTA_MUSIC_DISC :Item = registerItem("pasta_music_disc", Item(Item.Settings().jukeboxPlayable(
+        ModSounds.PASTA_KEY).maxCount(1).rarity(Rarity.RARE)))
 
     fun registerModItems(){
         SchipaoAdventure.LOGGER.info("Registering Mod Items for "+ SchipaoAdventure.MOD_ID)

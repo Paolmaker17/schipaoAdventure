@@ -1,0 +1,10 @@
+{
+  "pasta": {
+    "sounds": [
+      {
+        "name": "schipaoadventure:pasta",
+        "stream": true
+      }
+    ]
+  }
+}

@@ -27,6 +27,7 @@ object ModItemGroups {
 
                 entries.add(ModItems.MITHRIL_FEATHER)
                 entries.add(ModItems.STAR_OF_ORIGINS)
+                entries.add(ModItems.PASTA_MUSIC_DISC)
             }
             .build()
     )

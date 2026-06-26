@@ -74,6 +74,12 @@ tasks.jar {
 	}
 }
 
+sourceSets {
+	main {
+		resources.srcDir("src/generated/resources")
+	}
+}
+
 // configure the maven publication
 publishing {
 	publications {
