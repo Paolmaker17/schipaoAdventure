@@ -3,7 +3,10 @@ package sh.ftp.schipao.schipaoadventure
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.text.Text
+import sh.ftp.schipao.schipaoadventure.particle.AesParticle
+import sh.ftp.schipao.schipaoadventure.particle.ModParticles
 import sh.ftp.schipao.schipaoadventure.playerclasses.Aes
 
 class schipaoAdventureClient :ClientModInitializer {
@@ -21,6 +24,7 @@ class schipaoAdventureClient :ClientModInitializer {
     private var wasJumpPressed = false
 
     override fun onInitializeClient() {
+        ParticleFactoryRegistry.getInstance().register(ModParticles.AES_PARTICLE, AesParticle::Factory)
 
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             val player = client.player ?: return@register
