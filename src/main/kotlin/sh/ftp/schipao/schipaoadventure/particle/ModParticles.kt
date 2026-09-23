@@ -11,6 +11,10 @@ import sh.ftp.schipao.schipaoadventure.SchipaoAdventure
 object ModParticles {
     val AES_PARTICLE :SimpleParticleType =
         registerParticle("aes_particle", FabricParticleTypes.simple())
+    val AES_PARTICLE_2 :SimpleParticleType =
+        registerParticle("aes_particle_2", FabricParticleTypes.simple())
+    val AES_PARTICLE_3 :SimpleParticleType =
+        registerParticle("aes_particle_3", FabricParticleTypes.simple())
 
     private fun registerParticle(name: String?, particleType: SimpleParticleType): SimpleParticleType {
         return Registry.register(Registries.PARTICLE_TYPE, Identifier.of(SchipaoAdventure.MOD_ID, name), particleType)
