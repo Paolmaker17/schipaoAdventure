@@ -15,7 +15,7 @@ object Aes : PlayerClass() {
 
     override val name = "Aes"
     private var usedDoubleJump = false
-    private var usedDash = false
+    //private var usedDash = false
 
     fun doubleJump(player: ClientPlayerEntity) {
         if (usedDoubleJump) return
@@ -44,7 +44,7 @@ object Aes : PlayerClass() {
             }
         }
     }
-
+/*
     fun dash(player: ClientPlayerEntity) {
         if (usedDash) return
 
@@ -72,12 +72,8 @@ object Aes : PlayerClass() {
             }
         }
     }
-
+*/
     fun update(player: ClientPlayerEntity) {
-        if (player.isOnGround) {
-            usedDoubleJump = false
-        }
-
         if (player.isOnGround) {
             usedDoubleJump = false
         }
