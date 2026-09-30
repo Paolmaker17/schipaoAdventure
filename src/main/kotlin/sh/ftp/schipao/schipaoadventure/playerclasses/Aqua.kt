@@ -20,7 +20,7 @@ object Aqua : PlayerClass() {
         player.addStatusEffect(
             StatusEffectInstance(
                 StatusEffects.WATER_BREATHING,
-                40,
+                20,
                 0,
                 false,
                 false,

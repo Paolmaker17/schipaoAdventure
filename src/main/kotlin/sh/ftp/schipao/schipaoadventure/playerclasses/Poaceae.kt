@@ -9,13 +9,35 @@ import sh.ftp.schipao.schipaoadventure.playerclasses.PlayerClass
 object Poaceae :PlayerClass() {
 
     /*
-    Passive - Fire touch
-    Passive - Fire breathing
+    Passive - Regen
+    Passive - Speed
     */
 
     override val name = "Poaceae"
 
     fun update(player: PlayerEntity){
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.baseValue = 20.0
+
+        player.addStatusEffect(
+            StatusEffectInstance(
+                StatusEffects.REGENERATION,
+                20,
+                0,
+                false,
+                false,
+                false
+            )
+        )
+        player.addStatusEffect(
+            StatusEffectInstance(
+                StatusEffects.SPEED,
+                20,
+                1,
+                false,
+                false,
+                false
+            )
+        )
+
     }
 }

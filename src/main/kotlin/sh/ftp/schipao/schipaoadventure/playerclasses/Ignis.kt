@@ -21,7 +21,7 @@ object Ignis : PlayerClass() {
         player.addStatusEffect(
             StatusEffectInstance(
                 StatusEffects.FIRE_RESISTANCE,
-                40,
+                20,
                 0,
                 false,
                 false,
