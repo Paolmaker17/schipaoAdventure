@@ -9,6 +9,12 @@ import net.minecraft.entity.player.PlayerEntity
 import sh.ftp.schipao.schipaoadventure.playerclasses.PlayerClass
 
 object Ignis : PlayerClass() {
+
+    /*
+    Passive - Fire touch
+    Passive - Fire resistance
+    */
+
     override val name = "Ignis"
 
     fun onAttack(player: PlayerEntity, entity: LivingEntity) {
