@@ -49,6 +49,7 @@ class CustomClassChoiceScreen(title: Text, val onClose: () -> Unit = {}) :Screen
 
             val data = player as PlayerData
             data.playerClass = app
+            data.sync()
 
             MinecraftClient.getInstance().player?.sendMessage(
                 Text.literal("Class: ${(player as PlayerData).playerClass}"), false
