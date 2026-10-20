@@ -5,14 +5,12 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 
-object Aqua : PlayerClass() {
+object Aqua : PlayerClass("Aqua", PlayerClassInt.AQUA) {
 
     /*
     Passive - 15 hearts
     Passive - Water breathing
     */
-
-    override val name = "Aqua"
 
     fun update(player: PlayerEntity){
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.baseValue = 30.0

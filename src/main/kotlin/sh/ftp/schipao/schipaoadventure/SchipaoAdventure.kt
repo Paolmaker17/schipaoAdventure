@@ -15,6 +15,7 @@ import sh.ftp.schipao.schipaoadventure.item.ModItemGroups
 import sh.ftp.schipao.schipaoadventure.item.ModItems
 import sh.ftp.schipao.schipaoadventure.network.AesDoubleJumpPayload
 import sh.ftp.schipao.schipaoadventure.network.AesParticlesPayload
+import sh.ftp.schipao.schipaoadventure.network.AesTeleportPayload
 import sh.ftp.schipao.schipaoadventure.playerclasses.Aes
 import sh.ftp.schipao.schipaoadventure.playerclasses.Aqua
 import sh.ftp.schipao.schipaoadventure.playerclasses.Ignis
@@ -60,7 +61,6 @@ object SchipaoAdventure : ModInitializer {
 		ServerPlayNetworking.registerGlobalReceiver(AesDoubleJumpPayload.ID) { _, context ->
 			val player = context.player()
 			context.server().execute {
-
 				val data = player as PlayerData
 
 				if (data.playerClass != 1)
@@ -77,7 +77,25 @@ object SchipaoAdventure : ModInitializer {
 					AesParticlesPayload()
 				)
 			}
+
+
+			//Aes Tp Behind
+			ServerPlayNetworking.registerGlobalReceiver(AesTeleportPayload.ID) { _, context ->
+				val player = context.player()
+				context.server().execute {
+					val data = player as PlayerData
+
+					if (data.playerClass == 1)
+						return@execute
+
+					ServerPlayNetworking.send(
+						player,
+						AesParticlesPayload()
+					)
+				}
+			}
 		}
+
 
 		ServerTickEvents.END_SERVER_TICK.register { server ->
 			server.playerManager.playerList.forEach { player ->

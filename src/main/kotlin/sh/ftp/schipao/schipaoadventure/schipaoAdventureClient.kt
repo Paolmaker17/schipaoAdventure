@@ -114,6 +114,23 @@ class schipaoAdventureClient :ClientModInitializer {
 
             wasJumpPressed = jumpPressed
             wasOnGround = player.isOnGround
+
+//            // Aes
+//            val jumpPressed = client.options.jumpKey.isPressed
+//            val justPressed = jumpPressed && !wasJumpPressed
+//
+//            if (
+//                justPressed &&
+//                !wasOnGround &&
+//                data.playerClass == 1
+//            ) {
+//                ClientPlayNetworking.send(
+//                    AesDoubleJumpPayload()
+//                )
+//            }
+//
+//            wasJumpPressed = jumpPressed
+//            wasOnGround = player.isOnGround
         }
     }
 }

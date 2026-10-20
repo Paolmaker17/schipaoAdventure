@@ -1,21 +1,15 @@
 package sh.ftp.schipao.schipaoadventure.playerclasses
 
-import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.particle.ParticleTypes
-import net.minecraft.server.world.ServerWorld
-import sh.ftp.schipao.schipaoadventure.particle.ModParticles
 
-
-object Aes : PlayerClass() {
+object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
 
     /*
     Passive - Double jump
     Passive - No fall damage
     */
 
-    override val name = "Aes"
     val usedDoubleJump = mutableSetOf<java.util.UUID>()
 
     fun doubleJump(player: PlayerEntity): Boolean {
