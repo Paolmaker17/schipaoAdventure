@@ -34,6 +34,7 @@ object SchipaoAdventure : ModInitializer {
 		PayloadTypeRegistry.playC2S().register(PlayerDataPayload.ID, PlayerDataPayload.CODEC)
 
 		PayloadTypeRegistry.playC2S().register(AesDoubleJumpPayload.ID, AesDoubleJumpPayload.CODEC)
+		PayloadTypeRegistry.playC2S().register(AesTeleportPayload.ID, AesTeleportPayload.CODEC)
 		PayloadTypeRegistry.playS2C().register(AesParticlesPayload.ID, AesParticlesPayload.CODEC)
 
 		ServerPlayNetworking.registerGlobalReceiver(PlayerDataPayload.ID, this::handlePlayerDataPayload)
@@ -63,13 +64,9 @@ object SchipaoAdventure : ModInitializer {
 			context.server().execute {
 				val data = player as PlayerData
 
-				if (data.playerClass != 1)
-					return@execute
-
-				if (player.isOnGround)
-					return@execute
-
-				if (!Aes.doubleJump(player))
+				if (data.playerClass != 1 ||
+					player.isOnGround ||
+					!Aes.doubleJump(player))
 					return@execute
 
 				ServerPlayNetworking.send(
@@ -77,25 +74,24 @@ object SchipaoAdventure : ModInitializer {
 					AesParticlesPayload()
 				)
 			}
-
-
-			//Aes Tp Behind
-			ServerPlayNetworking.registerGlobalReceiver(AesTeleportPayload.ID) { _, context ->
-				val player = context.player()
-				context.server().execute {
-					val data = player as PlayerData
-
-					if (data.playerClass == 1)
-						return@execute
-
-					ServerPlayNetworking.send(
-						player,
-						AesParticlesPayload()
-					)
-				}
-			}
 		}
 
+		//Aes Tp Behind
+		ServerPlayNetworking.registerGlobalReceiver(AesTeleportPayload.ID) { payload, context ->
+			val player = context.player()
+
+			context.server().execute {
+				val data = player as? PlayerData ?: return@execute
+				if (data.playerClass != 1) return@execute
+
+				val target = player.world.getEntityById(payload.targetEntityId)
+						as? LivingEntity ?: return@execute
+
+				if (target === player || !player.canSee(target)) return@execute
+
+				Aes.entityTeleport(player, target)
+			}
+		}
 
 		ServerTickEvents.END_SERVER_TICK.register { server ->
 			server.playerManager.playerList.forEach { player ->

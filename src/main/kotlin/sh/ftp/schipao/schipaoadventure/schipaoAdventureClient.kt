@@ -2,11 +2,17 @@ package sh.ftp.schipao.schipaoadventure
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.util.InputUtil
 import net.minecraft.text.Text
+import org.lwjgl.glfw.GLFW
 import sh.ftp.schipao.schipaoadventure.network.AesDoubleJumpPayload
 import sh.ftp.schipao.schipaoadventure.network.AesParticlesPayload
+import sh.ftp.schipao.schipaoadventure.network.AesTeleportPayload
 import sh.ftp.schipao.schipaoadventure.particle.AesParticle
 import sh.ftp.schipao.schipaoadventure.particle.ModParticles
 
@@ -17,10 +23,12 @@ class schipaoAdventureClient :ClientModInitializer {
             player.sendMessage(Text.literal("got ${payload.data}"))
             (player as PlayerData).deserialize(payload.data)
         }
+
+        lateinit var TpKeyBinding: KeyBinding
     }
 
     private var opened = false
-
+    private var teleportCooldown = 0
     var wasJumpPressed = false
     var wasOnGround = false
 
@@ -81,6 +89,15 @@ class schipaoAdventureClient :ClientModInitializer {
                 }
             } }
 
+        TpKeyBinding = KeyBindingHelper.registerKeyBinding(
+            KeyBinding(
+                "SchipaoAdventure",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_C,
+                "Primary Ability"
+            )
+        )
+
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             val player = client.player ?: return@register
             val data = player as PlayerData
@@ -115,22 +132,24 @@ class schipaoAdventureClient :ClientModInitializer {
             wasJumpPressed = jumpPressed
             wasOnGround = player.isOnGround
 
-//            // Aes
-//            val jumpPressed = client.options.jumpKey.isPressed
-//            val justPressed = jumpPressed && !wasJumpPressed
-//
-//            if (
-//                justPressed &&
-//                !wasOnGround &&
-//                data.playerClass == 1
-//            ) {
-//                ClientPlayNetworking.send(
-//                    AesDoubleJumpPayload()
-//                )
-//            }
-//
-//            wasJumpPressed = jumpPressed
-//            wasOnGround = player.isOnGround
+            if (teleportCooldown > 0) {
+                teleportCooldown--
+                player.sendMessage(Text.literal(""+teleportCooldown), false)
+            }
+
+            if (
+                TpKeyBinding.wasPressed() &&
+                data.playerClass == 1 &&
+                teleportCooldown <= 0
+            ) {
+                val target = LookTargetHelper.getTargetEntity()
+                if (target != null) {
+                    ClientPlayNetworking.send(
+                        AesTeleportPayload(target.id)
+                    )
+                    teleportCooldown = 60
+                }
+            }
         }
     }
 }
