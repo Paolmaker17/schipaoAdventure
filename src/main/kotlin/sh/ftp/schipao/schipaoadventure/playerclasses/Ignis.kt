@@ -5,6 +5,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
+import sh.ftp.schipao.schipaoadventure.ScaleUtil.setPlayerScale
 
 object Ignis : PlayerClass("Ignis", PlayerClassInt.IGNIS) {
 
@@ -19,6 +20,7 @@ object Ignis : PlayerClass("Ignis", PlayerClassInt.IGNIS) {
 
     fun update(player: PlayerEntity){
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.baseValue = 20.0
+        setPlayerScale(player, 1.0)
 
         player.addStatusEffect(
             StatusEffectInstance(

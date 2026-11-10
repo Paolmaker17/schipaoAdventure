@@ -8,6 +8,9 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.text.Text
 import org.lwjgl.glfw.GLFW
 import sh.ftp.schipao.schipaoadventure.network.AesDoubleJumpPayload
@@ -24,7 +27,7 @@ class schipaoAdventureClient :ClientModInitializer {
             (player as PlayerData).deserialize(payload.data)
         }
 
-        lateinit var TpKeyBinding: KeyBinding
+        lateinit var PAKeyBinding: KeyBinding
     }
 
     private var opened = false
@@ -42,6 +45,15 @@ class schipaoAdventureClient :ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.AES_PARTICLE, AesParticle::Factory)
         ParticleFactoryRegistry.getInstance().register(ModParticles.AES_PARTICLE_2, AesParticle::Factory)
         ParticleFactoryRegistry.getInstance().register(ModParticles.AES_PARTICLE_3,AesParticle::Factory)
+
+        PAKeyBinding = KeyBindingHelper.registerKeyBinding(
+            KeyBinding(
+                "SchipaoAdventure",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_C,
+                "Primary Ability"
+            )
+        )
 
         ClientPlayNetworking.registerGlobalReceiver(
             AesParticlesPayload.ID
@@ -89,15 +101,6 @@ class schipaoAdventureClient :ClientModInitializer {
                 }
             } }
 
-        TpKeyBinding = KeyBindingHelper.registerKeyBinding(
-            KeyBinding(
-                "SchipaoAdventure",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_C,
-                "Primary Ability"
-            )
-        )
-
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             val player = client.player ?: return@register
             val data = player as PlayerData
@@ -134,11 +137,11 @@ class schipaoAdventureClient :ClientModInitializer {
 
             if (teleportCooldown > 0) {
                 teleportCooldown--
-                player.sendMessage(Text.literal(""+teleportCooldown), false)
+                //player.sendMessage(Text.literal(""+teleportCooldown), false)
             }
 
             if (
-                TpKeyBinding.wasPressed() &&
+                PAKeyBinding.wasPressed() &&
                 data.playerClass == 1 &&
                 teleportCooldown <= 0
             ) {

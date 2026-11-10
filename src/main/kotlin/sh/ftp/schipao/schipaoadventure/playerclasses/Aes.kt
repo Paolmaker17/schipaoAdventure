@@ -2,9 +2,13 @@ package sh.ftp.schipao.schipaoadventure.playerclasses
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.packet.s2c.play.PositionFlag
 import net.minecraft.server.world.ServerWorld
+import sh.ftp.schipao.schipaoadventure.LookTargetHelper
+import sh.ftp.schipao.schipaoadventure.ScaleUtil.setPlayerScale
 
 object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
 
@@ -15,7 +19,6 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
 
     val usedDoubleJump = mutableSetOf<java.util.UUID>()
     private val teleportCooldowns = mutableMapOf<java.util.UUID, Int>()
-    const val TELEPORT_COOLDOWN = 60 // 3 seconds
 
     fun doubleJump(player: PlayerEntity): Boolean {
         val uuid = player.uuid
@@ -53,14 +56,26 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
             target.pitch
         )
 
+        target.addStatusEffect(
+            StatusEffectInstance(
+                StatusEffects.GLOWING,
+                40,
+                0,
+                false,
+                false,
+                false
+            )
+        )
+
         if (!success) return false
 
-        teleportCooldowns[uuid] = TELEPORT_COOLDOWN
+        teleportCooldowns[uuid] = 60
         return true
     }
 
     fun update(player: PlayerEntity) {
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.baseValue = 20.0
+        setPlayerScale(player, 1.0)
 
         if (player.isOnGround)
             usedDoubleJump.remove(player.uuid)
