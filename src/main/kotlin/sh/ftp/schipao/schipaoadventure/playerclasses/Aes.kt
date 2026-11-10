@@ -15,6 +15,9 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
     /*
     Passive - Double jump
     Passive - No fall damage
+
+    Primary - Tp behind entity
+    Secondary - Invisibility
     */
 
     val usedDoubleJump = mutableSetOf<java.util.UUID>()
@@ -27,9 +30,9 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
 
         usedDoubleJump.add(uuid)
         player.setVelocity(
-            player.velocity.x + player.rotationVector.x * 0.2,
+            player.velocity.x + player.rotationVector.x * 0.3,
             0.8,
-            player.velocity.z + player.rotationVector.z * 0.2
+            player.velocity.z + player.rotationVector.z * 0.3
         )
         player.velocityModified = true
 

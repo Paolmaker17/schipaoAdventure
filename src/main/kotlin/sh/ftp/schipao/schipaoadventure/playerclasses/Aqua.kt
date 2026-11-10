@@ -11,6 +11,7 @@ object Aqua : PlayerClass("Aqua", PlayerClassInt.AQUA) {
     /*
     Passive - 15 hearts
     Passive - Water breathing
+    Passive - 1.5 bigger player
     */
 
     fun update(player: PlayerEntity){
