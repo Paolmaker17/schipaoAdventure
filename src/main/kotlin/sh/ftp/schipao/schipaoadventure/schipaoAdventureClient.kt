@@ -28,7 +28,7 @@ class schipaoAdventureClient :ClientModInitializer {
     companion object {
         fun handlePlayerDataPayload(payload: PlayerDataPayload, ctx: ClientPlayNetworking.Context) {
             val player = ctx.client().player!!
-            player.sendMessage(Text.literal("got ${payload.data}"))
+            //player.sendMessage(Text.literal("got ${payload.data}"))
             (player as PlayerData).deserialize(payload.data)
         }
 

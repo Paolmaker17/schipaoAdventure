@@ -6,7 +6,8 @@
 		"PlayerEntityMixin"
 	],
 	"client": [
-		"client.LivingEntityRendererMixin"
+		"client.LivingEntityRendererMixin",
+		"client.InvisibleEquipMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

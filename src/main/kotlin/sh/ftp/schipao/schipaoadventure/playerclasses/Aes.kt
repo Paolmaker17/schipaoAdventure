@@ -101,7 +101,6 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
                 false
             )
         )
-        println("[AES] INVISIBILITY ACTIVATED: ${player.name.string}")
         invisibilityCooldowns[uuid] = 200
         return true
     }
