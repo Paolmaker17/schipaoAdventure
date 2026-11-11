@@ -18,17 +18,31 @@ import sh.ftp.schipao.schipaoadventure.item.ModItems
 import sh.ftp.schipao.schipaoadventure.network.AesDoubleJumpPayload
 import sh.ftp.schipao.schipaoadventure.network.AesParticlesPayload
 import sh.ftp.schipao.schipaoadventure.network.AesTeleportPayload
+import sh.ftp.schipao.schipaoadventure.payloads.AesInvisibilityPayload
 import sh.ftp.schipao.schipaoadventure.playerclasses.Aes
 import sh.ftp.schipao.schipaoadventure.playerclasses.Aqua
 import sh.ftp.schipao.schipaoadventure.playerclasses.Ignis
+import sh.ftp.schipao.schipaoadventure.playerclasses.PlayerClassInt
 import sh.ftp.schipao.schipaoadventure.playerclasses.Poaceae
 
 object SchipaoAdventure : ModInitializer {
 	const val MOD_ID :String = "schipaoadventure"
     val LOGGER :Logger = LoggerFactory.getLogger(MOD_ID)
+	private val lastClasses = mutableMapOf<java.util.UUID, Int>()
 
-	fun handlePlayerDataPayload(payload: PlayerDataPayload, ctx: ServerPlayNetworking.Context) =
-		(ctx.player() as PlayerData).deserialize(payload.data)
+	fun handlePlayerDataPayload(payload: PlayerDataPayload, ctx: ServerPlayNetworking.Context) {
+		val player = ctx.player()
+		ctx.server().execute {
+			val data = player as PlayerData
+
+			val oldClass = data.playerClass
+			data.deserialize(payload.data)
+			val newClass = data.playerClass
+
+			if (oldClass != newClass)
+				player.clearStatusEffects()
+		}
+	}
 
 	override fun onInitialize() {
 		// Player data networking
@@ -38,6 +52,7 @@ object SchipaoAdventure : ModInitializer {
 		PayloadTypeRegistry.playC2S().register(AesDoubleJumpPayload.ID, AesDoubleJumpPayload.CODEC)
 		PayloadTypeRegistry.playC2S().register(AesTeleportPayload.ID, AesTeleportPayload.CODEC)
 		PayloadTypeRegistry.playS2C().register(AesParticlesPayload.ID, AesParticlesPayload.CODEC)
+		PayloadTypeRegistry.playC2S().register(AesInvisibilityPayload.ID, AesInvisibilityPayload.CODEC)
 
 		ServerPlayNetworking.registerGlobalReceiver(PlayerDataPayload.ID, this::handlePlayerDataPayload)
 
@@ -95,7 +110,33 @@ object SchipaoAdventure : ModInitializer {
 			}
 		}
 
+		// Aes Invis
+		ServerPlayNetworking.registerGlobalReceiver(AesInvisibilityPayload.ID) { _, context ->
+			val player = context.player()
+			context.server().execute {
+
+				val data = player as? PlayerData ?: return@execute
+
+				if (data.playerClass != 1) return@execute
+
+				Aes.invisibility(player)
+			}
+		}
+
 		ServerTickEvents.END_SERVER_TICK.register { server ->
+			for (player in server.playerManager.playerList) {
+				val data = player as PlayerData
+				if (lastClasses[player.uuid] != data.playerClass) {
+
+					Aes.syncClass1Team(
+						player,
+						data.playerClass == 1
+					)
+
+					lastClasses[player.uuid] = data.playerClass
+				}
+			}
+
 			server.playerManager.playerList.forEach { player ->
 				val data = player as PlayerData
 				when (data.playerClass) {

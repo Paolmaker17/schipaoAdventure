@@ -6,9 +6,11 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.packet.s2c.play.PositionFlag
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import sh.ftp.schipao.schipaoadventure.LookTargetHelper
 import sh.ftp.schipao.schipaoadventure.ScaleUtil.setPlayerScale
+import java.util.UUID
 
 object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
 
@@ -20,8 +22,9 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
     Secondary - Invisibility
     */
 
-    val usedDoubleJump = mutableSetOf<java.util.UUID>()
-    private val teleportCooldowns = mutableMapOf<java.util.UUID, Int>()
+    val usedDoubleJump = mutableSetOf<UUID>()
+    private val teleportCooldowns = mutableMapOf<UUID, Int>()
+    private val invisibilityCooldowns = mutableMapOf<UUID, Int>()
 
     fun doubleJump(player: PlayerEntity): Boolean {
         val uuid = player.uuid
@@ -76,6 +79,57 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
         return true
     }
 
+    fun invisibility(player: PlayerEntity): Boolean {
+        val serverPlayer = player as? ServerPlayerEntity ?: return false
+        val uuid = player.uuid
+
+        if ((invisibilityCooldowns[uuid] ?: 0) > 0) {
+            return false
+        }
+
+        syncClass1Team(serverPlayer, true)
+
+        serverPlayer.removeStatusEffect(StatusEffects.INVISIBILITY)
+
+        serverPlayer.addStatusEffect(
+            StatusEffectInstance(
+                StatusEffects.INVISIBILITY,
+                200,
+                0,
+                false,
+                false,
+                false
+            )
+        )
+        println("[AES] INVISIBILITY ACTIVATED: ${player.name.string}")
+        invisibilityCooldowns[uuid] = 200
+        return true
+    }
+
+    fun syncClass1Team(player: ServerPlayerEntity, isClass1: Boolean) {
+        val world = player.world as? ServerWorld ?: return
+        val scoreboard = world.server.scoreboard
+
+        val team = scoreboard.getTeam("aes")
+            ?: if (isClass1) {
+                scoreboard.addTeam("aes")
+            } else {
+                return
+            }
+
+        team.setShowFriendlyInvisibles(true)
+
+        val playerName = player.name.string
+
+        if (isClass1) {
+            scoreboard.addScoreHolderToTeam(playerName, team)
+        } else {
+            if (scoreboard.getScoreHolderTeam(playerName) == team) {
+                scoreboard.clearTeam(playerName)
+            }
+        }
+    }
+
     fun update(player: PlayerEntity) {
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.baseValue = 20.0
         setPlayerScale(player, 1.0)
@@ -84,10 +138,17 @@ object Aes : PlayerClass("Aes", PlayerClassInt.AES) {
             usedDoubleJump.remove(player.uuid)
 
         val cooldown = teleportCooldowns[player.uuid] ?: 0
-        if (cooldown > 0) {
+        if (cooldown > 0)
             teleportCooldowns[player.uuid] = cooldown - 1
-        } else {
+        else
             teleportCooldowns.remove(player.uuid)
-        }
+
+
+        val invisCooldown = invisibilityCooldowns[player.uuid] ?: 0
+        if (invisCooldown > 0)
+            invisibilityCooldowns[player.uuid] = invisCooldown - 1
+        else
+            invisibilityCooldowns.remove(player.uuid)
+
     }
 }

@@ -34,6 +34,7 @@ object ComandCustom {
                             val data = player as PlayerData
                             val decided = context.getArgument("name", String::class.java)
 
+                            player.clearStatusEffects()
                             data.playerClass = playerClasses.indexOfFirst { it.name == decided }
 
                             context.source.sendFeedback(

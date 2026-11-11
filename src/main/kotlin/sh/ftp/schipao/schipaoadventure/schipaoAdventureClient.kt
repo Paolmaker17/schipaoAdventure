@@ -18,6 +18,11 @@ import sh.ftp.schipao.schipaoadventure.network.AesParticlesPayload
 import sh.ftp.schipao.schipaoadventure.network.AesTeleportPayload
 import sh.ftp.schipao.schipaoadventure.particle.AesParticle
 import sh.ftp.schipao.schipaoadventure.particle.ModParticles
+import sh.ftp.schipao.schipaoadventure.payloads.AesInvisibilityPayload
+import sh.ftp.schipao.schipaoadventure.playerclasses.Aes
+import sh.ftp.schipao.schipaoadventure.playerclasses.Aqua
+import sh.ftp.schipao.schipaoadventure.playerclasses.Ignis
+import sh.ftp.schipao.schipaoadventure.playerclasses.Poaceae
 
 class schipaoAdventureClient :ClientModInitializer {
     companion object {
@@ -28,10 +33,12 @@ class schipaoAdventureClient :ClientModInitializer {
         }
 
         lateinit var PAKeyBinding: KeyBinding
+        lateinit var SAKeyBinding: KeyBinding
     }
 
     private var opened = false
     private var teleportCooldown = 0
+    private var invisTeleportCooldown = 0
     var wasJumpPressed = false
     var wasOnGround = false
 
@@ -48,13 +55,23 @@ class schipaoAdventureClient :ClientModInitializer {
 
         PAKeyBinding = KeyBindingHelper.registerKeyBinding(
             KeyBinding(
-                "SchipaoAdventure",
+                "Primary Ability",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_C,
-                "Primary Ability"
+                "SchipaoAdventure"
             )
         )
 
+        SAKeyBinding = KeyBindingHelper.registerKeyBinding(
+            KeyBinding(
+                "Secondary Ability",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_V,
+                "SchipaoAdventure"
+            )
+        )
+
+        // Particles
         ClientPlayNetworking.registerGlobalReceiver(
             AesParticlesPayload.ID
         ) { _, context ->
@@ -118,7 +135,7 @@ class schipaoAdventureClient :ClientModInitializer {
                 opened = true
             }
 
-            // Aes
+            // Aes passive
             val jumpPressed = client.options.jumpKey.isPressed
             val justPressed = jumpPressed && !wasJumpPressed
 
@@ -140,19 +157,44 @@ class schipaoAdventureClient :ClientModInitializer {
                 //player.sendMessage(Text.literal(""+teleportCooldown), false)
             }
 
-            if (
-                PAKeyBinding.wasPressed() &&
-                data.playerClass == 1 &&
-                teleportCooldown <= 0
-            ) {
-                val target = LookTargetHelper.getTargetEntity()
-                if (target != null) {
-                    ClientPlayNetworking.send(
-                        AesTeleportPayload(target.id)
-                    )
-                    teleportCooldown = 60
+            if (invisTeleportCooldown > 0) {
+                invisTeleportCooldown--
+            }
+
+            // Primary abilities
+            if(PAKeyBinding.wasPressed()){
+                when(data.playerClass) {
+                    0 -> true
+                    1 -> if (teleportCooldown <= 0) {
+                            val target = LookTargetHelper.getTargetEntity()
+                            if (target != null) {
+                                ClientPlayNetworking.send(
+                                    AesTeleportPayload(target.id)
+                                )
+                                teleportCooldown = 60
+                            }
+                        }
+                    2 -> true
+                    3 -> true
                 }
             }
+
+            // Secondary abilities
+            if(SAKeyBinding.wasPressed()){
+                when(data.playerClass) {
+                    0 -> true
+                    1 -> if (invisTeleportCooldown <= 0) {
+                            ClientPlayNetworking.send(
+                                AesInvisibilityPayload()
+                            )
+                            invisTeleportCooldown = 60
+                        }
+                    2 -> true
+                    3 -> true
+                }
+            }
+
+
         }
     }
 }
