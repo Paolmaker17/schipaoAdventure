@@ -34,6 +34,7 @@ class schipaoAdventureClient :ClientModInitializer {
 
         lateinit var PAKeyBinding: KeyBinding
         lateinit var SAKeyBinding: KeyBinding
+        lateinit var TAKeyBinding: KeyBinding
     }
 
     private var opened = false
@@ -67,6 +68,15 @@ class schipaoAdventureClient :ClientModInitializer {
                 "Secondary Ability",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_V,
+                "SchipaoAdventure"
+            )
+        )
+
+        TAKeyBinding = KeyBindingHelper.registerKeyBinding(
+            KeyBinding(
+                "Third Ability",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_X,
                 "SchipaoAdventure"
             )
         )
@@ -194,7 +204,15 @@ class schipaoAdventureClient :ClientModInitializer {
                 }
             }
 
-
+            // Third abilities
+            if(TAKeyBinding.wasPressed()){
+                when(data.playerClass) {
+                    0 -> true
+                    1 -> true
+                    2 -> true
+                    3 -> true
+                }
+            }
         }
     }
 }
