@@ -37,9 +37,13 @@ class schipaoAdventureClient :ClientModInitializer {
         lateinit var TAKeyBinding: KeyBinding
     }
 
+    private var coolDowns = mutableMapOf(
+        1 to 0,
+        2 to 0,
+        3 to 0
+    )
+
     private var opened = false
-    private var teleportCooldown = 0
-    private var invisTeleportCooldown = 0
     var wasJumpPressed = false
     var wasOnGround = false
 
@@ -162,26 +166,27 @@ class schipaoAdventureClient :ClientModInitializer {
             wasJumpPressed = jumpPressed
             wasOnGround = player.isOnGround
 
-            if (teleportCooldown > 0) {
-                teleportCooldown--
+            if ((coolDowns[1] ?: 0) > 0) {
+                coolDowns[1] = ((coolDowns[1] ?: 0) - 1).coerceAtLeast(0)
                 //player.sendMessage(Text.literal(""+teleportCooldown), false)
             }
 
-            if (invisTeleportCooldown > 0) {
-                invisTeleportCooldown--
+            if ((coolDowns[2] ?: 0) > 0) {
+                coolDowns[2] = ((coolDowns[2] ?: 0) - 1).coerceAtLeast(0)
+                //player.sendMessage(Text.literal(""+teleportCooldown), false)
             }
 
             // Primary abilities
             if(PAKeyBinding.wasPressed()){
                 when(data.playerClass) {
                     0 -> true
-                    1 -> if (teleportCooldown <= 0) {
+                    1 -> if ((coolDowns[1] ?: 0) <= 0) {
                             val target = LookTargetHelper.getTargetEntity()
                             if (target != null) {
                                 ClientPlayNetworking.send(
                                     AesTeleportPayload(target.id)
                                 )
-                                teleportCooldown = 60
+                                coolDowns[1] = 60
                             }
                         }
                     2 -> true
@@ -193,11 +198,11 @@ class schipaoAdventureClient :ClientModInitializer {
             if(SAKeyBinding.wasPressed()){
                 when(data.playerClass) {
                     0 -> true
-                    1 -> if (invisTeleportCooldown <= 0) {
+                    1 -> if ((coolDowns[2] ?: 0) <= 0) {
                             ClientPlayNetworking.send(
                                 AesInvisibilityPayload()
                             )
-                            invisTeleportCooldown = 60
+                            coolDowns[1] = 60
                         }
                     2 -> true
                     3 -> true
