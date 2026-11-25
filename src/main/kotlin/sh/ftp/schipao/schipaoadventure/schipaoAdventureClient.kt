@@ -181,7 +181,7 @@ class schipaoAdventureClient :ClientModInitializer {
                 when(data.playerClass) {
                     0 -> true
                     1 -> if ((coolDowns[1] ?: 0) <= 0) {
-                            val target = LookTargetHelper.getTargetEntity()
+                            val target = getTargetEntity()
                             if (target != null) {
                                 ClientPlayNetworking.send(
                                     AesTeleportPayload(target.id)

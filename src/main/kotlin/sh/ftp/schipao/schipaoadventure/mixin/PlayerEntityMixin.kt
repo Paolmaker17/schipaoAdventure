@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
-import sh.ftp.schipao.schipaoadventure.FallDamageHandler
 import sh.ftp.schipao.schipaoadventure.PlayerData
+import sh.ftp.schipao.schipaoadventure.handleFallDamage
 
 @Debug(export = true)
 @Mixin(PlayerEntity::class)
@@ -49,7 +49,7 @@ abstract class PlayerEntityMixin : PlayerData {
     ) {
         val player = this as PlayerEntity
 
-        if (!FallDamageHandler.handleFallDamage(player, fallDistance)) {
+        if (!handleFallDamage(player, fallDistance)) {
             cir.returnValue = false
         }
     }

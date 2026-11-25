@@ -4,7 +4,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
-import sh.ftp.schipao.schipaoadventure.ScaleUtil.setPlayerScale
+import sh.ftp.schipao.schipaoadventure.setPlayerScale
 
 object Poaceae :PlayerClass("Poaceae", PlayerClassInt.POACEAE) {
 
