@@ -179,7 +179,7 @@ class schipaoAdventureClient :ClientModInitializer {
             // Primary abilities
             if(PAKeyBinding.wasPressed()){
                 when(data.playerClass) {
-                    0 -> true
+                    0 -> true // Leaf Tornado (Small Damage blind+slowness)
                     1 -> if ((coolDowns[1] ?: 0) <= 0) {
                             val target = getTargetEntity()
                             if (target != null) {
@@ -189,33 +189,33 @@ class schipaoAdventureClient :ClientModInitializer {
                                 coolDowns[1] = 60
                             }
                         }
-                    2 -> true
-                    3 -> true
+                    2 -> true // Water Bubble Cure Furina Like
+                    3 -> true // Fire Fist (Launch Fireball From Hand with animation)
                 }
             }
 
             // Secondary abilities
             if(SAKeyBinding.wasPressed()){
                 when(data.playerClass) {
-                    0 -> true
+                    0 -> true // Vines Blocking Target
                     1 -> if ((coolDowns[2] ?: 0) <= 0) {
                             ClientPlayNetworking.send(
                                 AesInvisibilityPayload()
                             )
                             coolDowns[1] = 60
                         }
-                    2 -> true
-                    3 -> true
+                    2 -> true // Water Shield
+                    3 -> true // Fire Chain (Gets Target CLoser to you DocR4t Anchor)
                 }
             }
 
-            // Third abilities
+            // Third abilities (Trasformations maybe)
             if(TAKeyBinding.wasPressed()){
                 when(data.playerClass) {
                     0 -> true
                     1 -> true
                     2 -> true
-                    3 -> true
+                    3 -> true // Berserk Mode (for all classes?) ?
                 }
             }
         }
